@@ -85,6 +85,12 @@ VITE_REVERB_SCHEME=https
 
 Go to **App → Settings → Build** and change **Build environment** to **Dockerfile**.
 
+#### E. Create worker process (optional)
+If you want to run Laravel queues, create a **Worker** process.
+
+1. Go to **App → Processes** and create a **Background worker** process.
+2. Set start command to `php artisan queue:work`
+
 ### 4) Deploy 🚀
 
 Trigger a new deployment from Sevalla. Once deployed, your Laravel app, NGINX, and Reverb will run inside the web process under supervisord.
