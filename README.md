@@ -72,8 +72,8 @@ REVERB_APP_ID=
 REVERB_APP_KEY=
 REVERB_APP_SECRET=
 REVERB_HOST=localhost
-REVERB_PORT=8000
-REVERB_SCHEME=http
+REVERB_PORT=8000 # <-- Must match the Reverb port in Dockerfile
+REVERB_SCHEME=http # <-- inside the container it should be http. The client can still use https because Sevalla web process manages TLS.
 
 VITE_APP_NAME=${APP_NAME}
 VITE_REVERB_APP_KEY=${REVERB_APP_KEY}
