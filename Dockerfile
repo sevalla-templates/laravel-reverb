@@ -9,6 +9,12 @@ RUN composer install
 FROM node:20-alpine AS assets
 WORKDIR /app
 
+ARG VITE_REVERB_APP_KEY
+ARG VITE_REVERB_HOST
+ARG VITE_REVERB_PORT
+ARG VITE_REVERB_SCHEME
+ARG VITE_APP_NAME
+
 COPY . .
 RUN npm ci
 COPY --from=vendor /app/vendor ./vendor
