@@ -45,13 +45,20 @@ supervisord -c /etc/supervisord.conf
 1. Go to **App → Networking** and scroll to **Connected services**.
 2. Click **Add connection**, select the database you created, and enable **Add environment variables to the application** in the modal.
 
-#### C. Set environment variables
+#### C. Expose Reverb port on private network
+1. Go to **App → Networking** and scroll to **Private networking**.
+2. Click **Expose port** and add port `8000`
+
+This step is important if you want to reach Reverb from queue process.
+
+#### D. Set environment variables
 
 Set the following in **App → Environment variables**. Fill in any empty values for your setup.
 
 > Notes
 > - `DB_URL` is automatically added if you completed step **B**.
 > - Set `APP_URL` and `ASSET_URL` to your Sevalla app URL (e.g., `https://your-app.sevalla.app` or your custom domain).
+> - Set `REVERB_HOST` to your Sevalla app web process private hostname. You find it in App/Networking/Private networking section. (e.g., `myapp-73uvj-web.myapp-73uvj.svc.cluster.local`).
 > - Set `VITE_REVERB_HOST` to your Sevalla app URL without protocol (e.g., `your-app.sevalla.app` or your custom domain).
 > - `REVERB_APP_ID`, `REVERB_APP_KEY`, and `REVERB_APP_SECRET` can be random values.
 > - Ensure `APP_KEY` is set (e.g., via `php artisan key:generate`).
@@ -72,7 +79,7 @@ BROADCAST_CONNECTION=reverb
 REVERB_APP_ID=
 REVERB_APP_KEY=
 REVERB_APP_SECRET=
-REVERB_HOST=localhost
+REVERB_HOST= # <-- Copy the web process host from Sevalla dashboard: App/Networking/Private networking
 REVERB_PORT=8000 # <-- Must match the Reverb port in Dockerfile
 REVERB_SCHEME=http # <-- inside the container it should be http. The client can still use https because Sevalla web process manages TLS.
 
@@ -82,11 +89,11 @@ VITE_REVERB_HOST=
 VITE_REVERB_SCHEME=https
 ```
 
-#### D. Use the Dockerfile build
+#### E. Use the Dockerfile build
 
 Go to **App → Settings → Build** and change **Build environment** to **Dockerfile**.
 
-#### E. Create worker process (optional)
+#### F. Create worker process (optional)
 If you want to run Laravel queues, create a **Worker** process.
 
 1. Go to **App → Processes** and create a **Background worker** process.
